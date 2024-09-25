@@ -1,8 +1,11 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-from pytube import YouTube
+from pytubefix import YouTube
+from pytubefix.cli import on_progress
 from moviepy.editor import *
 from tkinter.filedialog import askdirectory
+import moviepy.editor as mpe
+import string
 
 window = tk.Tk()
 window.title("YT to mp3 converter")
@@ -30,7 +33,6 @@ def convert_command():
             
             url_entry.delete(0, tk.END)
 
-            # return new_file  # Return the path to the new file
         elif default_folder.get() == 0:
             new_save_path = askdirectory()
             url = url_entry.get()
@@ -52,26 +54,31 @@ def convert_command():
             
             url_entry.delete(0, tk.END)
 
-            # return new_file  # Return the path to the new file
-
     elif mp4_flag.get() == 1:
+        resolution = '2160p'
         if default_folder.get() == 1:
             url = url_entry.get()
             # Use pytube to download the video
             yt = YouTube(url)
-            video = yt.streams.filter(only_audio=False).first()
             
-            # Download the video to a file
-            out_file = video.download(output_path=save_path)
+            audio = yt.streams.filter(only_audio=True).first().download(output_path=save_path)
+            aname = audio[:-4] + ".mp3"
+            os.rename(audio, aname)
+
+            video = yt.streams.filter(subtype='mp4', res=resolution).first().download(output_path=save_path)
+            vname = video[:-4] + "1.mp4"
+            os.rename(video, vname)
             
-            # Set up new filename for the MP3
-            #new_file = out_file.replace(".mp4", ".mp3")
-            # Use moviepy to convert video audio to mp3
-            video_clip = VideoFileClip(out_file)
-            video_clip.write_videofile(out_file)
-            
+            # Setting the audio to the video
+            video = mpe.VideoFileClip(vname)
+            audio = mpe.AudioFileClip(aname)
+            final = video.set_audio(audio)
+            # Output result
+            final.write_videofile(vname[:-5] + vname[-4:])
+
             # Remove the original video file
-            #os.remove(out_file)
+            os.remove(aname)
+            os.remove(vname)
             
             url_entry.delete(0, tk.END)
 
@@ -80,19 +87,25 @@ def convert_command():
             url = url_entry.get()
             # Use pytube to download the video
             yt = YouTube(url)
-            video = yt.streams.filter(only_audio=False).first()
             
-            # Download the video to a file
-            out_file = video.download(output_path=new_save_path)
+            audio = yt.streams.filter(only_audio=True).first().download(output_path=save_path)
+            aname = audio[:-4] + ".mp3"
+            os.rename(audio, aname)
+
+            video = yt.streams.filter(subtype='mp4', res=resolution).first().download(output_path=new_save_path)
+            vname = video[:-4] + "1.mp4"
+            os.rename(video, vname)
             
-            # Set up new filename for the MP3
-            #new_file = out_file.replace(".mp4", ".mp3")
-            # Use moviepy to convert video audio to mp3
-            #video_clip = AudioFileClip(out_file)
-            #video_clip.write_audiofile(new_file)
-            
+            # Setting the audio to the video
+            video = mpe.VideoFileClip(vname)
+            audio = mpe.AudioFileClip(aname)
+            final = video.set_audio(audio)
+            # Output result
+            final.write_videofile(vname[:-5] + vname[-4:])
+
             # Remove the original video file
-            #os.remove(out_file)
+            os.remove(aname)
+            os.remove(vname)
             
             url_entry.delete(0, tk.END)
 
@@ -116,8 +129,6 @@ def mp4_command():
     mp4_btn["borderwidth"] = 5
     mp3_btn["borderwidth"] = 2
 
-def default_folder_command():
-    print(default_folder.get())
 
 url_entry_convert_btn_frame = tk.Frame()
 #convert_btn_frame = tk.Frame()
@@ -162,8 +173,7 @@ default_folder_btn = ttk.Checkbutton(master=default_folder_frame,
                                      text="Default folder",
                                      variable=default_folder,
                                      onvalue=1,
-                                     offvalue=0,
-                                     command=default_folder_command
+                                     offvalue=0
                                      )
 default_folder_btn.pack(side=tk.RIGHT)
 
