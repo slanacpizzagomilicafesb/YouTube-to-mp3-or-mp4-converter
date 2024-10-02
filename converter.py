@@ -170,19 +170,40 @@ def mp4_command():
     res_1440p_btn.configure(state='normal')
     res_2160p_btn.configure(state='normal')
 
-
+#window_frame = tk.Frame(master=window)
+url_lbl_frame = tk.Frame(master=window)
 url_entry_convert_btn_frame = tk.Frame(master=window)
 #convert_btn_frame = tk.Frame()
 mp34_default_btns_frame = tk.Frame(master=window)
 mp3_4_btn_frame = tk.Frame(master=mp34_default_btns_frame)
+blank_lbl_frame = tk.Frame(master=mp34_default_btns_frame)
 default_folder_frame = tk.Frame(master=mp34_default_btns_frame)
 resolution_btns_frame = tk.Frame(master=window)
+res_btns_frame = tk.Frame(master=resolution_btns_frame)
+blank_lbl_res_frame = tk.Frame(master=resolution_btns_frame)
+
+
+
+url_lbl = tk.Label(master=url_lbl_frame,
+                   text="Paste the URL here:                                                                                              ")
+url_lbl.pack(side=tk.TOP)
 
 
 url_entry = tk.Entry(master=url_entry_convert_btn_frame,
                      width=50
                      )
 url_entry.pack(side=tk.LEFT)
+
+
+
+convert_btn = tk.Button(master=url_entry_convert_btn_frame,
+                        text="Convert",
+                        width=10,
+                        height=1,
+                        command=convert_command
+                        )
+convert_btn.pack(side=tk.RIGHT)
+
 
 
 mp3_btn = tk.Button(master=mp3_4_btn_frame,
@@ -203,15 +224,9 @@ mp4_btn = tk.Button(master=mp3_4_btn_frame,
                     )
 mp4_btn.pack(side=tk.LEFT)
 
-
-convert_btn = tk.Button(master=url_entry_convert_btn_frame,
-                        text="Convert",
-                        width=10,
-                        height=1,
-                        command=convert_command
-                        )
-convert_btn.pack(side=tk.RIGHT)
-
+blank_lbl = tk.Label(master=blank_lbl_frame,
+                     text="                                       ")
+blank_lbl.pack(side=tk.LEFT)
 
 default_folder = tk.IntVar(value=1)
 default_folder_btn = ttk.Checkbutton(master=default_folder_frame,
@@ -223,57 +238,62 @@ default_folder_btn = ttk.Checkbutton(master=default_folder_frame,
 default_folder_btn.pack(side=tk.RIGHT)
 
 
+
+res_lbl = tk.Label(master=res_btns_frame,
+                   text="Resolution:")
+res_lbl.pack(side=tk.TOP)
+
 resolution = tk.StringVar(value='720p')
-res_144p_btn = ttk.Radiobutton(master=resolution_btns_frame,
+res_144p_btn = ttk.Radiobutton(master=res_btns_frame,
                                text='144p',
                                variable=resolution,
                                value='144p')
 res_144p_btn.pack(side=tk.TOP)
 res_144p_btn.configure(state='disabled')
 
-res_240p_btn = ttk.Radiobutton(master=resolution_btns_frame,
+res_240p_btn = ttk.Radiobutton(master=res_btns_frame,
                                text='240p',
                                variable=resolution,
                                value='240p')
 res_240p_btn.pack(side=tk.TOP)
 res_240p_btn.configure(state='disabled')
 
-res_360p_btn = ttk.Radiobutton(master=resolution_btns_frame,
+res_360p_btn = ttk.Radiobutton(master=res_btns_frame,
                                text='360p',
                                variable=resolution,
                                value='360p')
 res_360p_btn.pack(side=tk.TOP)
 res_360p_btn.configure(state='disabled')
 
-res_480p_btn = ttk.Radiobutton(master=resolution_btns_frame,
+res_480p_btn = ttk.Radiobutton(master=res_btns_frame,
                                text='480p',
                                variable=resolution,
                                value='480p')
 res_480p_btn.pack(side=tk.TOP)
 res_480p_btn.configure(state='disabled')
 
-res_720p_btn = ttk.Radiobutton(master=resolution_btns_frame,
+res_720p_btn = ttk.Radiobutton(master=res_btns_frame,
                                text='720p',
                                variable=resolution,
                                value='720p')
 res_720p_btn.pack(side=tk.TOP)
 res_720p_btn.configure(state='disabled')
 
-res_1080p_btn = ttk.Radiobutton(master=resolution_btns_frame,
+res_1080p_btn = ttk.Radiobutton(master=res_btns_frame,
                                text='1080p',
                                variable=resolution,
                                value='1080p')
 res_1080p_btn.pack(side=tk.TOP)
 res_1080p_btn.configure(state='disabled')
 
-res_1440p_btn = ttk.Radiobutton(master=resolution_btns_frame,
+res_1440p_btn = ttk.Radiobutton(master=res_btns_frame,
                                text='1440p',
                                variable=resolution,
                                value='1440p')
 res_1440p_btn.pack(side=tk.TOP)
 res_1440p_btn.configure(state='disabled')
 
-res_2160p_btn = ttk.Radiobutton(master=resolution_btns_frame,
+res_2160p_btn = ttk.Radiobutton(master=res_btns_frame,
                                text='2160p',
                                variable=resolution,
                                value='2160p')
@@ -281,12 +301,29 @@ res_2160p_btn.pack(side=tk.TOP)
 res_2160p_btn.configure(state='disabled')
 
 
+
+blank_lbl_res = tk.Label(master=blank_lbl_res_frame,
+                         text="                                          ")
+blank_lbl_res.pack(side=tk.RIGHT)
+
+
+url_lbl_frame.pack(side=tk.TOP)
 url_entry_convert_btn_frame.pack(side=tk.TOP)
-#convert_btn_frame.pack(side=tk.RIGHT)
-mp3_4_btn_frame.pack(side=tk.LEFT)
-default_folder_frame.pack(side=tk.RIGHT)
 mp34_default_btns_frame.pack(side=tk.TOP)
+mp3_4_btn_frame.pack(side=tk.LEFT)
+blank_lbl_frame.pack(side=tk.LEFT)
+default_folder_frame.pack(side=tk.RIGHT)
+res_btns_frame.pack(side=tk.LEFT)
+blank_lbl_res_frame.pack(side=tk.LEFT)
 resolution_btns_frame.pack(side=tk.TOP)
 
+"""
+url_entry_convert_btn_frame.place()
+mp3_4_btn_frame.pack(side=tk.LEFT)
+default_folder_frame.pack(side=tk.RIGHT)
+mp34_default_btns_frame.place(x=20, y=60)
+resolution_btns_frame.place(x=20, y=100)
+window_frame.pack()
+"""
 # Start the event loop.
 window.mainloop()
