@@ -11,6 +11,8 @@ window.title("YT to mp3 converter")
 save_path = "D:/Music/converter_music/"
 
 def convert_command():
+    error_msg_lbl["text"] = ""
+
     if mp3_flag.get() == 1:
         if default_folder.get() == 1:
             # Use pytube to download the video
@@ -22,7 +24,7 @@ def convert_command():
                 out_file = video.download(output_path=save_path)
 
             except FileExistsError:
-                print("That file already exists.")
+                error_msg_lbl["text"] = "ERROR: That file already exists."
 
             else:
                 # Set up new filename for the MP3
@@ -48,7 +50,7 @@ def convert_command():
                 out_file = video.download(output_path=new_save_path)
             
             except FileExistsError:
-                print("That file already exists.")
+                error_msg_lbl["text"] = "ERROR: That file already exists."
 
             else:
                 # Set up new filename for the MP3
@@ -77,11 +79,11 @@ def convert_command():
                 os.rename(video, vname)
 
             except AttributeError:
-                print("That video does not have the requested resolution YouTube, please try a different one.")
+                error_msg_lbl["text"] = "ERROR: Requested resolution not found, please try a different one."
                 os.remove(aname)
 
             except FileExistsError:
-                print("That file already exists.")
+                error_msg_lbl["text"] = "ERROR: That file already exists."
             
             else:
                 # Setting the audio to the video
@@ -114,11 +116,11 @@ def convert_command():
                 os.rename(video, vname)
 
             except AttributeError:
-                print("That video does not have the requested resolution on YouTube, please try a different one.")
+                error_msg_lbl["text"] = "ERROR: Requested resolution not found, please try a different one."
                 os.remove(aname)
 
             except FileExistsError:
-                print("That file already exists.")
+                error_msg_lbl["text"] = "ERROR: That file already exists."
             
             else:
                 # Setting the audio to the video
@@ -181,6 +183,7 @@ default_folder_frame = tk.Frame(master=mp34_default_btns_frame)
 resolution_btns_frame = tk.Frame(master=window)
 res_btns_frame = tk.Frame(master=resolution_btns_frame)
 blank_lbl_res_frame = tk.Frame(master=resolution_btns_frame)
+error_msg_frame = tk.Frame(master=window)
 
 
 
@@ -307,6 +310,13 @@ blank_lbl_res = tk.Label(master=blank_lbl_res_frame,
 blank_lbl_res.pack(side=tk.RIGHT)
 
 
+
+error_msg_lbl = tk.Label(master=error_msg_frame,
+                         text="")
+error_msg_lbl.pack()
+
+
+
 url_lbl_frame.pack(side=tk.TOP)
 url_entry_convert_btn_frame.pack(side=tk.TOP)
 mp34_default_btns_frame.pack(side=tk.TOP)
@@ -316,6 +326,7 @@ default_folder_frame.pack(side=tk.RIGHT)
 res_btns_frame.pack(side=tk.LEFT)
 blank_lbl_res_frame.pack(side=tk.LEFT)
 resolution_btns_frame.pack(side=tk.TOP)
+error_msg_frame.pack(side=tk.TOP)
 
 """
 url_entry_convert_btn_frame.place()
