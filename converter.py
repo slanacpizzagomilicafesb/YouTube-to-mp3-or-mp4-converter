@@ -227,6 +227,7 @@ mp4_btn = tk.Button(master=mp3_4_btn_frame,
                     )
 mp4_btn.pack(side=tk.LEFT)
 
+# label full of spaces used to position the .mp3 and .mp4 buttons along with the default folder checkbox
 blank_lbl = tk.Label(master=blank_lbl_frame,
                      text="                                       ")
 blank_lbl.pack(side=tk.LEFT)
@@ -304,7 +305,7 @@ res_2160p_btn.pack(side=tk.TOP)
 res_2160p_btn.configure(state='disabled')
 
 
-
+# label full of spaces used to position the resolution radio buttons
 blank_lbl_res = tk.Label(master=blank_lbl_res_frame,
                          text="                                          ")
 blank_lbl_res.pack(side=tk.RIGHT)
